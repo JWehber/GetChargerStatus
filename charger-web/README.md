@@ -1,4 +1,4 @@
-# Charger Web ⚡
+# GetChargerStatus Web ⚡
 
 Eine moderne, responsive GitHub-Pages-Webseite zum Überwachen einer konkreten E-Auto-Ladesäule in Oldenburg.
 
@@ -76,6 +76,10 @@ In GitHub Actions muss ein Secret gesetzt werden:
 
 Danach kann die Action die Statusdaten automatisch aktualisieren und die Seite deployen.
 
+## Hinweis
+
+Diese Lösung wurde mit Unterstützung von **OpenClaw / Jarvis** generiert und umgesetzt 🤖
+
 ## Status
 
-MVP in Arbeit 🚧
+MVP live 🚀
