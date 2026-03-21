@@ -1,0 +1,55 @@
+name: Build and Deploy Charger Web
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'charger-web/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '*/15 * * * *'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: charger-web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: charger-web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update charger snapshot
+        env:
+          TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
+        run: node scripts/update-status.mjs
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: charger-web/dist
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
