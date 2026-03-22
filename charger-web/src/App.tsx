@@ -109,7 +109,6 @@ function App() {
             <MapPin size={18} />
             <div>
               <strong>{station.name}</strong>
-              <p>{station.address}</p>
             </div>
           </div>
         </article>
