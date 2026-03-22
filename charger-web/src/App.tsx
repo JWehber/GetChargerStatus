@@ -6,7 +6,6 @@ import './index.css'
 
 const station = {
   name: 'EWE Go Ladepunkt',
-  address: 'Standort bewusst ausgeblendet',
   operator: 'EWE Go',
 }
 
@@ -87,7 +86,6 @@ function App() {
             <RefreshCw size={16} className={refreshing ? 'spin' : ''} />
             {refreshing ? 'Aktualisiere …' : 'Status aktualisieren'}
           </button>
-          <p className="refresh-hint">{refreshing ? 'TomTom-Snapshot wird neu geladen …' : 'Manuell neu laden möglich'}</p>
         </div>
       </section>
 
