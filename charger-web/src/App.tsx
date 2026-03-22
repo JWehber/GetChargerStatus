@@ -33,6 +33,33 @@ const stateConfig: Record<ChargerState, { className: string; icon: ReactNode }> 
   },
 }
 
+function formatLastUpdated(value?: string) {
+  if (!value) return '–'
+
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return value
+
+  const berlinTime = new Intl.DateTimeFormat('de-DE', {
+    dateStyle: 'short',
+    timeStyle: 'short',
+    timeZone: 'Europe/Berlin',
+  }).format(date)
+
+  const diffMs = Date.now() - date.getTime()
+  const diffMin = Math.max(0, Math.round(diffMs / 60000))
+
+  let relative = 'gerade eben'
+  if (diffMin >= 1 && diffMin < 60) {
+    relative = `vor ${diffMin} Min.`
+  } else if (diffMin >= 60) {
+    const hours = Math.floor(diffMin / 60)
+    const mins = diffMin % 60
+    relative = mins === 0 ? `vor ${hours} Std.` : `vor ${hours} Std. ${mins} Min.`
+  }
+
+  return `${berlinTime} (${relative})`
+}
+
 function App() {
   const { status, loading, refreshing, error, refresh } = useChargerStatus()
   const effectiveState = status?.state ?? 'unknown'
@@ -96,7 +123,7 @@ function App() {
             </li>
             <li>
               <span>Letzte Aktualisierung</span>
-              <strong>{status?.lastUpdated ?? '–'}</strong>
+              <strong>{formatLastUpdated(status?.lastUpdated)}</strong>
             </li>
             <li>
               <span>Statusquelle</span>
