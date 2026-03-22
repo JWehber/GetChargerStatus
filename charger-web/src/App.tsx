@@ -100,7 +100,7 @@ function App() {
             </li>
             <li>
               <span>Statusquelle</span>
-              <strong>TomTom Snapshot via GitHub Actions</strong>
+              <strong>TomTom Snapshot via GitHub Actions (ca. alle 5 Min.)</strong>
             </li>
             <li>
               <span>Steckertyp</span>
