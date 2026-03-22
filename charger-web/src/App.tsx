@@ -8,7 +8,6 @@ const station = {
   name: 'EWE Go – Oldenburg / Nettelbeckstraße',
   address: 'Nettelbeckstraße 24, 26131 Oldenburg',
   operator: 'EWE Go',
-  hint: 'Live-Daten kommen jetzt direkt über TomTom EV Charging Availability.',
 }
 
 const stateConfig: Record<ChargerState, { className: string; icon: ReactNode }> = {
@@ -35,7 +34,7 @@ const stateConfig: Record<ChargerState, { className: string; icon: ReactNode }> 
 }
 
 function App() {
-  const { status, loading, error, refresh } = useChargerStatus()
+  const { status, loading, refreshing, error, refresh } = useChargerStatus()
   const effectiveState = status?.state ?? 'unknown'
   const cfg = stateConfig[effectiveState]
 
@@ -47,13 +46,22 @@ function App() {
           <h1>Deine Ladesäule in Oldenburg auf einen Blick</h1>
           <p className="hero-text">
             Modernes GitHub-Pages-Frontend für den schnellen Status-Check einer EWE-Go-Ladesäule — mobil,
-            klar und live über TomTom Availability.
+            klar und sicher über einen TomTom-Snapshot via GitHub Actions.
           </p>
         </div>
-        <button className="refresh-button" type="button" onClick={() => void refresh()}>
-          <RefreshCw size={16} />
-          Status aktualisieren
-        </button>
+        <div className="refresh-control">
+          <button
+            className={`refresh-button${refreshing ? ' is-refreshing' : ''}`}
+            type="button"
+            onClick={() => void refresh(false)}
+            disabled={refreshing}
+            aria-busy={refreshing}
+          >
+            <RefreshCw size={16} className={refreshing ? 'spin' : ''} />
+            {refreshing ? 'Aktualisiere …' : 'Status aktualisieren'}
+          </button>
+          <p className="refresh-hint">{refreshing ? 'TomTom-Snapshot wird neu geladen …' : 'Manuell neu laden möglich'}</p>
+        </div>
       </section>
 
       <section className={cfg.className}>
@@ -116,11 +124,6 @@ function App() {
             <li><span>Unbekannt</span><strong>{status?.summary.unknown ?? '–'}</strong></li>
             <li><span>Außer Betrieb</span><strong>{status?.summary.outOfService ?? '–'}</strong></li>
           </ul>
-        </article>
-
-        <article className="note-card">
-          <h3>Nächster Schritt 🚀</h3>
-          <p>{station.hint}</p>
         </article>
       </section>
     </main>
