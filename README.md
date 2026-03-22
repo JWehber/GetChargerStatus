@@ -1,6 +1,6 @@
 # GetChargerStatus ⚡
 
-A focused project for tracking the status of a specific EV charger and presenting it through a modern web interface.
+A focused project for tracking the status of a specific EV charger and presenting it through a modern web interface, without exposing unnecessary location details.
 
 ## Purpose
 
