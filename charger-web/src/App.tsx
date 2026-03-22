@@ -5,8 +5,8 @@ import type { ChargerState } from './types/charger'
 import './index.css'
 
 const station = {
-  name: 'EWE Go – Oldenburg / Nettelbeckstraße',
-  address: 'Nettelbeckstraße 24, 26131 Oldenburg',
+  name: 'EWE Go Ladepunkt',
+  address: 'Standort bewusst ausgeblendet',
   operator: 'EWE Go',
 }
 
@@ -43,7 +43,7 @@ function App() {
       <section className="hero-panel">
         <div className="hero-copy">
           <p className="eyebrow">EV Charger Monitor ⚡</p>
-          <h1>Deine Ladesäule in Oldenburg auf einen Blick</h1>
+          <h1>Dein Ladepunkt auf einen Blick</h1>
           <p className="hero-text">
             Modernes GitHub-Pages-Frontend für den schnellen Status-Check einer EWE-Go-Ladesäule — mobil,
             klar und sicher über einen TomTom-Snapshot via GitHub Actions.

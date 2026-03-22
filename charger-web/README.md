@@ -1,13 +1,10 @@
 # GetChargerStatus Web ⚡
 
-Eine moderne, responsive GitHub-Pages-Webseite zum Überwachen einer konkreten E-Auto-Ladesäule in Oldenburg.
+Eine moderne, responsive GitHub-Pages-Webseite zum Überwachen eines konkreten E-Auto-Ladepunkts.
 
 ## Ziel
 
-Die App zeigt den aktuellen Status der EWE-Go-Ladesäule an der:
-
-- **Nettelbeckstraße 24**
-- **26131 Oldenburg**
+Die App zeigt den aktuellen Status eines konkreten EWE-Go-Ladepunkts.
 
 Im Fokus stehen:
 - klarer Status auf einen Blick
