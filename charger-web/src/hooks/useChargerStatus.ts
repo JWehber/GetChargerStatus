@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { fetchChargerStatus } from '../api/charger'
-import type { ChargerStatus } from '../types/charger'
+import { fetchChargerSnapshot } from '../api/charger'
+import type { ChargerHistorySnapshot } from '../types/charger'
 
 export function useChargerStatus() {
-  const [data, setData] = useState<ChargerStatus | null>(null)
+  const [data, setData] = useState<ChargerHistorySnapshot | null>(null)
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -16,7 +16,7 @@ export function useChargerStatus() {
       } else {
         setRefreshing(true)
       }
-      const next = await fetchChargerStatus()
+      const next = await fetchChargerSnapshot()
       setData(next)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Unbekannter Fehler')
@@ -34,7 +34,8 @@ export function useChargerStatus() {
     return () => window.clearInterval(id)
   }, [refresh])
 
-  const status = useMemo(() => data, [data])
+  const status = useMemo(() => data?.current ?? null, [data])
+  const history = useMemo(() => data?.history ?? [], [data])
 
-  return { status, loading, refreshing, error, refresh }
+  return { status, history, loading, refreshing, error, refresh }
 }

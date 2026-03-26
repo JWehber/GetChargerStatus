@@ -246,6 +246,38 @@ button {
   }
 }
 
+.full-width-card {
+  grid-column: 1 / -1;
+}
+
+.transition-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.transition-item {
+  display: grid;
+  gap: 4px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.transition-item:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.transition-item strong {
+  text-transform: capitalize;
+}
+
+.transition-item span {
+  color: #aebdd6;
+}
+
 @media (max-width: 760px) {
   .page-shell {
     width: min(100% - 24px, 1100px);

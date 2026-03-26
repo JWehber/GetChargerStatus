@@ -17,3 +17,14 @@ export interface ChargerStatus {
   lastUpdated: string
   summary: ChargerAvailabilitySummary
 }
+
+export interface ChargerHistoryEntry {
+  state: ChargerState
+  startedAt: string
+  endedAt: string | null
+}
+
+export interface ChargerHistorySnapshot {
+  current: ChargerStatus
+  history: ChargerHistoryEntry[]
+}
