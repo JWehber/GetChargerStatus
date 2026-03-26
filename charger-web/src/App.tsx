@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { BatteryCharging, CircleAlert, CircleCheckBig, MapPin, RefreshCw, Zap } from 'lucide-react'
 import { useChargerStatus } from './hooks/useChargerStatus'
+import { StatusTimelineChart } from './components/StatusTimelineChart'
 import type { ChargerHistoryEntry, ChargerState } from './types/charger'
 import './index.css'
 
@@ -160,6 +161,13 @@ function App() {
             <li><span>Letzter Wechsel</span><strong>{latestChange ? formatDateTime(latestChange.startedAt) : '–'}</strong></li>
             <li><span>Aktueller Zustand seit</span><strong>{latestChange ? formatDateTime(latestChange.startedAt) : '–'}</strong></li>
           </ul>
+        </article>
+      </section>
+
+      <section className="grid-layout compact-grid">
+        <article className="info-card full-width-card">
+          <h3>Zeitverlauf heute</h3>
+          <StatusTimelineChart history={history} />
         </article>
       </section>
 

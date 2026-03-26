@@ -278,6 +278,41 @@ button {
   color: #aebdd6;
 }
 
+.chart-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.status-chart {
+  width: 100%;
+  min-width: 680px;
+  height: auto;
+}
+
+.chart-axis {
+  stroke: rgba(255, 255, 255, 0.28);
+  stroke-width: 1;
+}
+
+.chart-grid {
+  stroke: rgba(255, 255, 255, 0.1);
+  stroke-width: 1;
+  stroke-dasharray: 4 6;
+}
+
+.chart-line {
+  fill: none;
+  stroke: #7cd2ff;
+  stroke-width: 4;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+.chart-label {
+  fill: #aebdd6;
+  font-size: 12px;
+}
+
 @media (max-width: 760px) {
   .page-shell {
     width: min(100% - 24px, 1100px);
