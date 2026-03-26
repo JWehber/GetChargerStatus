@@ -4,16 +4,11 @@ import path from 'node:path'
 const apiKey = process.env.TOMTOM_API_KEY
 const chargingAvailabilityId = 'd3e3113d-9cf4-4732-8d15-7ccb21cbaea1'
 
-if (!apiKey) {
-  throw new Error('TOMTOM_API_KEY fehlt')
-}
+if (!apiKey) throw new Error('TOMTOM_API_KEY fehlt')
 
 const url = `https://api.tomtom.com/search/2/chargingAvailability.json?key=${apiKey}&chargingAvailability=${chargingAvailabilityId}`
 const response = await fetch(url)
-
-if (!response.ok) {
-  throw new Error(`TomTom API Fehler: ${response.status}`)
-}
+if (!response.ok) throw new Error(`TomTom API Fehler: ${response.status}`)
 
 const data = await response.json()
 const connector = data.connectors?.[0]
@@ -43,17 +38,43 @@ const labels = {
   unknown: ['Unbekannt', 'Der Status konnte gerade nicht eindeutig bestimmt werden.'],
 }
 
+const now = new Date().toISOString()
 const output = {
   state,
   label: labels[state][0],
   description: labels[state][1],
   connectorType: connector?.type ?? null,
   powerKW: connector?.availability?.perPowerLevel?.[0]?.powerKW ?? null,
-  lastUpdated: new Date().toISOString(),
+  lastUpdated: now,
   summary: current,
 }
 
-const target = path.resolve('public/status.json')
-await fs.mkdir(path.dirname(target), { recursive: true })
-await fs.writeFile(target, `${JSON.stringify(output, null, 2)}\n`, 'utf8')
-console.log(`status.json updated: ${output.label}`)
+const publicDir = path.resolve('public')
+const statusTarget = path.join(publicDir, 'status.json')
+const historyTarget = path.join(publicDir, 'history.json')
+await fs.mkdir(publicDir, { recursive: true })
+await fs.writeFile(statusTarget, `${JSON.stringify(output, null, 2)}\n`, 'utf8')
+
+let history = []
+try {
+  const prev = JSON.parse(await fs.readFile(historyTarget, 'utf8'))
+  history = Array.isArray(prev.history) ? prev.history : []
+} catch {
+  history = []
+}
+
+const last = history[history.length - 1]
+if (!last) {
+  history.push({ state, startedAt: now, endedAt: null })
+} else if (last.state !== state) {
+  last.endedAt = now
+  history.push({ state, startedAt: now, endedAt: null })
+}
+
+const historyOutput = {
+  current: output,
+  history: history.slice(-500),
+}
+
+await fs.writeFile(historyTarget, `${JSON.stringify(historyOutput, null, 2)}\n`, 'utf8')
+console.log(`status/history updated: ${output.label}`)
