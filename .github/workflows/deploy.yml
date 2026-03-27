@@ -16,7 +16,48 @@ permissions:
   id-token: write
 
 jobs:
+  update-snapshot:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: charger-web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: charger-web/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Update charger snapshot and history
+        env:
+          TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
+        run: node scripts/update-status.mjs
+
+      - name: Commit updated public snapshot files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/status.json public/history.json
+          if git diff --cached --quiet; then
+            echo "No snapshot changes to commit"
+          else
+            git commit -m "chore: update charger snapshot"
+            git push
+          fi
+
   build-and-deploy:
+    if: always()
+    needs: [update-snapshot]
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -34,11 +75,6 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
-
-      - name: Update charger snapshot
-        env:
-          TOMTOM_API_KEY: ${{ secrets.TOMTOM_API_KEY }}
-        run: node scripts/update-status.mjs
 
       - name: Build
         run: npm run build
