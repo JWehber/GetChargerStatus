@@ -4,7 +4,7 @@
   "description": "Aktuell ist kein Ladepunkt frei.",
   "connectorType": "IEC62196Type2CableAttached",
   "powerKW": 22,
-  "lastUpdated": "2026-03-22T00:16:00+01:00",
+  "lastUpdated": "2026-03-27T20:58:36.952Z",
   "summary": {
     "available": 0,
     "occupied": 1,
