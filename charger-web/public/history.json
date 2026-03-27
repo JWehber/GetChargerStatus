@@ -1,24 +1,18 @@
 {
   "current": {
-    "state": "occupied",
-    "label": "Belegt",
-    "description": "Aktuell ist kein Ladepunkt frei.",
-    "connectorType": "IEC62196Type2CableAttached",
-    "powerKW": 22,
-    "lastUpdated": "2026-03-27T20:58:36.952Z",
+    "state": "unknown",
+    "label": "Unbekannt",
+    "description": "Historie wird aufgebaut.",
+    "connectorType": null,
+    "powerKW": null,
+    "lastUpdated": "2026-03-26T21:45:00.000Z",
     "summary": {
       "available": 0,
-      "occupied": 1,
+      "occupied": 0,
       "reserved": 0,
-      "unknown": 0,
+      "unknown": 1,
       "outOfService": 0
     }
   },
-  "history": [
-    {
-      "state": "occupied",
-      "startedAt": "2026-03-27T20:58:36.952Z",
-      "endedAt": null
-    }
-  ]
+  "history": []
 }
