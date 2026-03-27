@@ -56,15 +56,23 @@ jobs:
           fi
 
   build-and-deploy:
-    if: always()
+    if: github.event_name == 'push' || always()
     needs: [update-snapshot]
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: charger-web
     steps:
-      - name: Checkout
+      - name: Checkout latest main
         uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Ensure latest origin/main is checked out
+        run: |
+          git fetch origin main
+          git checkout origin/main
 
       - name: Setup Node
         uses: actions/setup-node@v4
